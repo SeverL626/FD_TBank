@@ -1,5 +1,6 @@
 package ru.tbank.education.school.lesson1
 
 fun main() {
-    println("Hello World!")
+    print("Hello World! V1")
+    println("Hello World! V2")
 }
