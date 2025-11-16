@@ -47,10 +47,6 @@ open class Client(
         println("$firstname $surname got $points points for flight ${flight.flight_international_code}")
     }
 
-    open fun updateInfo(newAddress: String, newChildren: Int, newSpouse: Boolean) {
-        println("$firstname $surname updated info.")
-    }
-
     override fun getInfo(): String {
         return "$firstname $surname, sex $sex, age $age, active flights: ${activeFlights.size}"
     }
@@ -114,10 +110,6 @@ class VIPClient(
             stewardess2
         )
     }
-
-    override fun updateInfo(newAddress: String, newChildren: Int, newSpouse: Boolean) {
-        println("$firstname $surname (VIP) updated personal info.")
-    }
 }
 
 data class Airplane(
@@ -159,7 +151,7 @@ class SheduledFlights(
     var cancelled: Boolean = false
 ) : Flights(flight_international_code, departure, arrival, airplane) {
 
-    constructor(flightCode: String, airplane: Airplane) : this(
+    constructor(flightCode: String, airplane: Airplane) : this (
         flightCode,
         "TMP001",
         LocalDateTime.now(),
@@ -185,9 +177,11 @@ class PersonalFlights(
 
 fun main() {
 
+    // Создаём самолёты
     val plane1 = Airplane("A001", "Boeing 737", "Boeing", 180, 2015, 5000, 79000, 2, "Turbofan", true, false)
-    val plane2 = Airplane("VIP01", "Gulfstream G650", "Gulfstream", 18, 2020, 13000, 45000, 2, "Turbofan", true, false)
+    val plane2 = Airplane("VIP01", "SF50", "Cirrus", 5, 2020, 1790, 1000, 1, "Turbofan", false, false)
 
+    // Создаём клиентов (обычный)
     val client1 = CommonClients(
         "Ivan", "Ivanov", 30, "M", "P12345", "2020-01-01", "1990-06-12",
         "Russia", "Moscow", 1, true, "Economy", 1200,
@@ -196,24 +190,31 @@ fun main() {
         25
     )
 
+    // Создаём клиентов (VIP)
     val vipClient = VIPClient(
-        "Anna", "Petrova", 40, "F", "P54321", "2015-03-10", "1980-09-20",
-        "Russia", "Moscow", 2, true, "Gold", "Frequent Flyer",
+        "Anna", "Petrova", 20, "F", "P54321", "2015-03-10", "2000-09-20",
+        "Russia", "Moscow", 0, true, "S++", "A DME Director's child",
         101, "PrivateJet", plane2
     )
 
+    // Создание регулярного рейса (через дополнительный конструктор)
     val flight1 = SheduledFlights("SU123", plane1)
-    client1.bookFlight(flight1)
-    client1.addLoyaltyPoints(flight1)
+
+    // Бронирование регулярного рейса обычным клиентом
+    client1.bookFlight(flight1) // Бронирование
+    client1.addLoyaltyPoints(flight1) // Баллы лояльности
     println(client1.getInfo())
     println(client1.getPrivateInfo())
 
+    // Создание частного рейса
     val vipFlight = vipClient.createPersonalFlight(
         "VIP001",
         LocalDateTime.now().plusDays(1),
         LocalDateTime.now().plusDays(1).plusHours(2),
         "PilotA", "PilotB", "Stewardess1", "Stewardess2"
     )
+
+    // Назначение частного рейса на VIP-клиента
     vipClient.bookFlight(vipFlight)
     println(vipClient.getInfo())
     println(vipClient.getPrivateInfo())
