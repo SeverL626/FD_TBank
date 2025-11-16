@@ -2,7 +2,7 @@ package ru.tbank.education.school.lesson2
 import java.time.*
 
 // Объяснение структуры в Structure.md
-// перечень доступных функций в Functions.md
+// Перечень доступных функций в Functions.md
 
 abstract class Person(
     protected val firstname: String,
@@ -176,6 +176,10 @@ class PersonalFlights(
 ) : Flights(flight_international_code, departure, arrival, airplane)
 
 fun main() {
+
+
+    // Подробнее см. Functions.md
+
 
     // Создаём самолёты
     val plane1 = Airplane("A001", "Boeing 737", "Boeing", 180, 2015, 5000, 79000, 2, "Turbofan", true, false)
