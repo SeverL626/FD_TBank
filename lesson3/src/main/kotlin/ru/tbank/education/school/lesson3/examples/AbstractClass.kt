@@ -1,6 +1,6 @@
 // Абстрактный базовый класс
 abstract class FileProcessor(
-    val filePath: String
+    val filePath: String,
     var data: String
 ) {
 
