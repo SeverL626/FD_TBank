@@ -1,4 +1,4 @@
-package ru.tbank.education.school.lesson2
+package ru.tbank.education.school.lesson2.airline_hw
 import java.time.*
 
 // Объяснение структуры в Structure.md
