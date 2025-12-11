@@ -1,6 +1,6 @@
-package ru.tbank.education.school.lesson1
+package ru.tbank.education.school.lesson5
 
-import ru.tbank.education.school.lesson1.Person
+import ru.tbank.education.school.lesson5.Person
 
 data class Book(
     val title: String,
@@ -15,37 +15,37 @@ data class Person(
 )
 
 class Library {
-    private val books = mutableListOf<Book>()
-    private val people = mutableListOf<Person>()
-    private val takenBooks = mutableMapOf<Book, Person>() // Кто какую книгу взял
+    private val books = mutableListOf<ru.tbank.education.school.lesson5.Book>()
+    private val people = mutableListOf<ru.tbank.education.school.lesson5.Person>()
+    private val takenBooks = mutableMapOf<ru.tbank.education.school.lesson5.Book, ru.tbank.education.school.lesson5.Person>() // Кто какую книгу взял
 
     // Добавляет книгу в библиотеку
-    fun addBook(book: Book) {
+    fun addBook(book: ru.tbank.education.school.lesson5.Book) {
         // todo: добавить книгу в список books
         books.add(book)
     }
 
     // Добавляет человека в список посетителей
-    fun addPerson(person: Person) {
+    fun addPerson(person: ru.tbank.education.school.lesson5.Person) {
         // todo: добавить человека в список people
         people.add(person)
     }
 
     // Возвращает список всех доступных книг (не взятых)
-    fun getAvailableBooks(): List<Book> {
+    fun getAvailableBooks(): List<ru.tbank.education.school.lesson5.Book> {
         // todo: вернуть только те книги, которые НЕ находятся в takenBooks
         return books.filter{!takenBooks.containsKey(it)}
 
     }
 
     // Возвращает список книг определённого автора
-    fun getBooksByAuthor(author: String): List<Book> {
+    fun getBooksByAuthor(author: String): List<ru.tbank.education.school.lesson5.Book> {
         // todo: вернуть книги, у которых автор совпадает с переданным (игнорируя регистр)
         return books.filter{it.author.lowercase() == author.lowercase()}
     }
 
     // Возвращает список книг определённого жанра
-    fun getBooksByGenre(genre: String): List<Book> {
+    fun getBooksByGenre(genre: String): List<ru.tbank.education.school.lesson5.Book> {
         // todo: вернуть книги, у которых жанр совпадает с переданным (игнорируя регистр)
         return books.filter{it.genre.lowercase() == genre.lowercase()}
     }
@@ -71,19 +71,19 @@ class Library {
     }
 
     // Возвращает список всех посетителей
-    fun getAllPeople(): List<Person> {
+    fun getAllPeople(): List<ru.tbank.education.school.lesson5.Person> {
         // todo: вернуть копию списка people
         return people.toList()
     }
 
     // Возвращает книгу, которую взял человек (по имени)
-    fun getBooksTakenByPerson(personName: String): List<Book> {
+    fun getBooksTakenByPerson(personName: String): List<ru.tbank.education.school.lesson5.Book> {
         // todo: вернуть список книг, которые взял человек с указанным именем
         return takenBooks.filterValues{it.name.equals(personName, ignoreCase = true)}.keys.toList()
     }
 
     // Возвращает информацию о том, кто взял конкретную книгу
-    fun getPersonWhoTookBook(bookTitle: String): Person? {
+    fun getPersonWhoTookBook(bookTitle: String): ru.tbank.education.school.lesson5.Person? {
         // todo: найти книгу по названию и вернуть человека, который её взял (или null)
         try {
             val book = books.find{it.title.equals(bookTitle, ignoreCase = true)}
@@ -96,16 +96,37 @@ class Library {
 
 //Пример использования:
 fun main() {
-    val library = Library()
+    val library = _root_ide_package_.ru.tbank.education.school.lesson5.Library()
 
     // Добавляем книги
-    library.addBook(Book("Война и мир", "Лев Толстой", 1869, "Роман"))
-    library.addBook(Book("Преступление и наказание", "Фёдор Достоевский", 1866, "Роман"))
-    library.addBook(Book("Мастер и Маргарита", "Михаил Булгаков", 1967, "Фантастика"))
+    library.addBook(
+        _root_ide_package_.ru.tbank.education.school.lesson5.Book(
+            "Война и мир",
+            "Лев Толстой",
+            1869,
+            "Роман"
+        )
+    )
+    library.addBook(
+        _root_ide_package_.ru.tbank.education.school.lesson5.Book(
+            "Преступление и наказание",
+            "Фёдор Достоевский",
+            1866,
+            "Роман"
+        )
+    )
+    library.addBook(
+        _root_ide_package_.ru.tbank.education.school.lesson5.Book(
+            "Мастер и Маргарита",
+            "Михаил Булгаков",
+            1967,
+            "Фантастика"
+        )
+    )
 
     // Добавляем людей
-    library.addPerson(Person("Анна", 25))
-    library.addPerson(Person("Иван", 30))
+    library.addPerson(_root_ide_package_.ru.tbank.education.school.lesson5.Person("Анна", 25))
+    library.addPerson(_root_ide_package_.ru.tbank.education.school.lesson5.Person("Иван", 30))
 
     // Проверяем доступные книги
     println("Доступные книги: ${library.getAvailableBooks().map { it.title }}")

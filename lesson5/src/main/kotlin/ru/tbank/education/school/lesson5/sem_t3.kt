@@ -1,4 +1,4 @@
-package ru.tbank.education.school.lesson1
+package ru.tbank.education.school.lesson5
 
 /**
  * Простой интерфейс для in-memory кеша, хранящего данные в формате ключ-значение.
@@ -72,7 +72,7 @@ interface InMemoryCache<K, V> {
 }
 
 
-class MemoryCache<K, V>: InMemoryCache<K, V> {
+class MemoryCache<K, V>: ru.tbank.education.school.lesson5.InMemoryCache<K, V> {
     private val storage = mutableMapOf<K, V>()
 
     override fun put(key: K, value: V) {
