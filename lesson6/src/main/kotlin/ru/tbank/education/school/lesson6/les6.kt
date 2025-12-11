@@ -1,4 +1,4 @@
-package ru.tbank.education.school.lesson6
+package ru.tbank.education.school.lesson7
 
 // Функциональное программирование — про функции и преобразование данных
 // 0) Чистые функции -> f(x) зависит только от x, без скрытых состояний
