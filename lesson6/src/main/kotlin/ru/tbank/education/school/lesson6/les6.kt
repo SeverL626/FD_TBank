@@ -1,4 +1,4 @@
-package ru.tbank.education.school.lesson7
+package ru.tbank.education.school.lesson6
 
 // Функциональное программирование — про функции и преобразование данных
 // 0) Чистые функции -> f(x) зависит только от x, без скрытых состояний
@@ -119,11 +119,11 @@ val r2 = "hello".run { length * 2 }
 // контекст: this
 // возвращает: сам объект
 // когда использовать: настройка объекта (builder-style)
-class User {
+class User2 {
     var name: String = ""
     var age: Int = 0
 }
-val user = User().apply {
+val user = User2().apply {
     name = "Alex"
     age = 20
 }

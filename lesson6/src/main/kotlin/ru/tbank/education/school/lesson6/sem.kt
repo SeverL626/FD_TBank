@@ -1,4 +1,4 @@
-package ru.tbank.education.school.lesson7
+package ru.tbank.education.school.lesson6
 
 data class User(
     val name: String,
@@ -14,7 +14,7 @@ data class Order(
 )
 
 // Задание 1 - выведите все заказы
-fun task() {
+fun task1() {
     val users = listOf(
         User(
             "Анна", listOf(
@@ -29,6 +29,9 @@ fun task() {
             )
         )
     )
+
+    val orders = users.flatMap{it.orders}
+    println(orders)
 }
 
 
@@ -36,6 +39,9 @@ fun task() {
 fun task2() {
     val months = listOf("Янв", "Фев", "Мар", "Апр", "Май")
     val revenue = listOf(1000, 1200, 800, 1400, 1300)
+
+    val report = months.zip(revenue)
+    println(report)
 }
 
 // Задание 3 - выведите id всех заказов, которые были доставлены и оплачены на сумму > 1000
@@ -46,6 +52,9 @@ fun task3() {
         Order(id = 3, product = "Рюкзак", amount = 1000, isPaid = true, isDelivered = true),
         Order(id = 4, product = "Кружка", amount = 500, isPaid = false, isDelivered = false)
     )
+
+    val ord_list = orders.filter{(it.isPaid) && (it.isDelivered) && (it.amount > 1000)}.map{it.id}
+    println(ord_list)
 }
 
 
@@ -55,7 +64,7 @@ data class Student(
 )
 
 
-// Задание 4 - выведите кажду группу и студентов в ней
+// Задание 4 - выведите каждую группу и студентов в ней
 fun task4() {
     val students = listOf(
         Student(name = "Анна", group = "A-01"),
@@ -64,6 +73,9 @@ fun task4() {
         Student(name = "Галина", group = "A-03"),
         Student(name = "Денис", group = "A-02")
     )
+
+    val g = students.groupBy{it.group}
+    println(g)
 }
 
 data class ApiResponse(val code: Int, val message: String)
@@ -77,6 +89,10 @@ fun task5() {
         ApiResponse(code = 200, message = "Cached OK")
     )
 
+    val firstSuccess = responses.firstOrNull{it.code == 200 }
+    val lastServerError = responses.lastOrNull{it.code == 500}
+    println("Первый успешный ответ: $firstSuccess")
+    println("Последний ответ с ошибкой сервера: $lastServerError")
 }
 
 data class Movie(val title: String, val rating: Double)
@@ -90,13 +106,27 @@ fun task6() {
         Movie(title = "Тёмный рыцарь", rating = 9.1),
         Movie(title = "Мементо", rating = 8.5)
     )
+
+    val tir3 = movies.sortedByDescending{it.rating}.take(3)
+    println(tir3)
 }
 
 // Задание 7 - добавить логирование операций
 fun task7() {
-    val add: (a: Int, b: Int) -> Int = { a, b -> a + b }
-    val subtract: (a: Int, b: Int) -> Int = { a, b -> a - b }
-    val multiply: (a: Int, b: Int) -> Int = { a, b -> a * b }
+    val add: (Int, Int) -> Int = { a, b -> a + b }
+    val subtract: (Int, Int) -> Int = { a, b -> a - b }
+    val multiply: (Int, Int) -> Int = { a, b -> a * b }
+
+    fun logCall(name: String, op: (Int, Int) -> Int, a: Int, b: Int): Int {
+        println("Выполняется $name, аргументы: ($a, $b)")
+        val result = op(a, b)
+        println("Вычисление завершено. Результат: $result")
+        return result
+    }
+
+    logCall("СЛОЖЕНИЕ", add, 5, 3)
+    logCall("ВЫЧИТАНИЕ", subtract, 10, 4)
+    logCall("УМНОЖЕНИЕ", multiply, 6, 7)
 }
 
 
@@ -116,6 +146,36 @@ fun task8() {
         Client(name = "  Мария  ", email = "maria@mail.ru", phone = "8-800-555-35-35"),
         Client(name = " ", email = "test@", phone = "000"),
     )
+
+    fun t8_name(n: String): String {
+        val nn: String = n.trim().lowercase().replaceFirstChar{it.uppercaseChar()}
+        return nn
+    }
+
+    fun t8_email(n: String): String {
+        val nn = n.trim().lowercase()
+        val parts = nn.split("@")
+        if (parts.size != 2) return ""
+        if (!parts[1].contains(".")) return ""
+        if (parts[0].isBlank() || parts[1].isBlank()) return ""
+        return nn
+    }
+
+    fun t8_phone(n: String): String {
+        var d = n.trim().filter { it.isDigit() }
+        return d
+    }
+
+    val cleanClients = rawClients.map { client ->
+        client.copy(
+            name = t8_name(client.name),
+            email = t8_email(client.email),
+            phone = t8_phone(client.phone)
+        )
+    }
+
+
+    println(cleanClients)
 }
 
 // Задание 9 - просто смотрим на примеры
@@ -189,4 +249,15 @@ interface Function2<in P1, in P2, out R> {
 
 
 fun main() {
+    task1()
+    task2()
+    task3()
+    task4()
+    task5()
+    task6()
+    task7()
+    task8()
+    task9()
+    task10()
+    task11()
 }
