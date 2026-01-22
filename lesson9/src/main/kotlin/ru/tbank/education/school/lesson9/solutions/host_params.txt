@@ -1,2 +1,2 @@
-host=localhost
-host=127.0.0.1
+logs/config/app.conf:host=localhost
+logs/config/db.conf:host=127.0.0.1
