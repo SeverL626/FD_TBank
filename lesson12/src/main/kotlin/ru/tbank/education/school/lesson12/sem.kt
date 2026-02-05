@@ -1,5 +1,6 @@
 package ru.tbank.education.school.lesson12
 
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 // Task1
@@ -104,26 +105,49 @@ object Deadlock {
         t2.join()
     }
 
-    fun runFixed(): Boolean {
-        synchronized(resourceA) {
+    fun runFixed() {
+        val t1 = Thread {
+            synchronized(resourceA) {
+                println("Поток 1 взял A")
+            }
             synchronized(resourceB) {
-                // действия
-                return true
+                println("Поток 1 взял B")
             }
         }
+
+        val t2 = Thread {
+            synchronized(resourceB) {
+                println("Поток 2 взял B")
+            }
+            synchronized(resourceA) {
+                println("Поток 2 взял A")
+            }
+        }
+
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
+    }
+}
+
+
+// Task5
+object ExecutorServiceExample {
+    fun run() {
+        val thread = Executors.newFixedThreadPool(4)
+        for (i in 1..20) {
+            thread.submit {
+                println("Task $i in thread ${Thread.currentThread().name}")
+                Thread.sleep(200)
+            }
+        }
+        thread.shutdown()
     }
 }
 
 
 /*
-// Task5
-object ExecutorServiceExample {
-    fun run(): List<String> {
-        TODO()
-    }
-}
-
-
 // Task6
 object FutureFactorial {
     fun run(): Map<Int, BigInteger> {
@@ -171,5 +195,7 @@ fun main() {
     // for (x in 0 until 100) { println(RaceCondition.run()) } // иногда проскакивает варианты < 10000 -> Race Condition
     // println(SynchronizedCounter.run())
     // println(RaceCondition_v2.run())
-    Deadlock.runDeadlock()
+    // Deadlock.runDeadlock()
+    // Deadlock.runFixed()
+    ExecutorServiceExample.run()
 }
