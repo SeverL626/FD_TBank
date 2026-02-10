@@ -20,11 +20,25 @@ class BankAccount(val id: String, var balance: Int) {
     private val transferLock = Any()
 
     fun transfer(to: BankAccount, amount: Int) {
-        synchronized(transferLock) {
-            Thread.sleep(10)
-            if (balance >= amount) {
-                balance -= amount
-                to.balance += amount
+
+        val firstLock: BankAccount
+        val secondLock: BankAccount
+
+        if (this.id < to.id) {
+            firstLock = this
+            secondLock = to
+        } else {
+            firstLock = to
+            secondLock = this
+        }
+
+        synchronized(firstLock.transferLock) {
+            synchronized(secondLock.transferLock) {
+
+                if (balance >= amount) {
+                    balance -= amount
+                    to.balance += amount
+                }
             }
         }
     }

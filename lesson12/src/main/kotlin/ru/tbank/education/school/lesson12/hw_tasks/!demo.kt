@@ -19,7 +19,6 @@ fun main() = runBlocking {
 
     println("A balance: ${accountA.balance}")
     println("B balance: ${accountB.balance}")
-    println("upd: возникает racing error, но в рамках задачи я её не исправлял")
 
 
 
