@@ -13,3 +13,6 @@ tasks.withType<JavaExec>().configureEach {
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+}
