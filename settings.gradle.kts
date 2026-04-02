@@ -11,14 +11,14 @@ plugins {
 }
 
 rootProject.name = "faculty_day"
-include("lesson1")
-include("lesson2")
-include("lesson3")
-include("lesson4")
-include("lesson5")
-include("lesson6")
-include("lesson8")
-include("lesson9")
+include("lesson01")
+include("lesson02")
+include("lesson03")
+include("lesson04")
+include("lesson05")
+include("lesson06")
+include("lesson08")
+include("lesson09")
 include("lesson10")
 include("lesson11")
 include("lesson12")
