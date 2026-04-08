@@ -1,6 +1,6 @@
 package com.example.library.repository
 
-import com.example.library.entity.Author
+import com.example.library.entity.Reader
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

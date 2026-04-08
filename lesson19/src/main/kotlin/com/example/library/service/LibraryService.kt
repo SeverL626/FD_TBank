@@ -3,9 +3,11 @@ package com.example.library.service
 import com.example.library.entity.Author
 import com.example.library.entity.Book
 import com.example.library.entity.Genre
+import com.example.library.entity.Reader
 import com.example.library.repository.AuthorRepository
 import com.example.library.repository.BookRepository
 import com.example.library.repository.GenreRepository
+import com.example.library.repository.ReaderRepository
 import jakarta.persistence.EntityNotFoundException
 import org.hibernate.Hibernate
 import org.springframework.data.domain.Page

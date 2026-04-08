@@ -22,7 +22,7 @@ data class Reader(
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "reader_books",
+        name = "mm_readers_book",
         joinColumns = [JoinColumn(name = "reader_id")],
         inverseJoinColumns = [JoinColumn(name = "book_id")]
     )
