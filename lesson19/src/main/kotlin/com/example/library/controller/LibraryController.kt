@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*
 class LibraryController(
     private val libraryService: LibraryService
 ) {
+    // HOMEWORK
+    @GetMapping("/readers")
+    fun getAllReaders(): ResponseEntity<List<Map<String, Any?>>> {
+        return ResponseEntity.ok(libraryService.getAllReaders())
+    }
     
     // ==================== АВТОРЫ ====================
     

@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class LibraryService(
+open class LibraryService(
     private val authorRepository: AuthorRepository,
     private val bookRepository: BookRepository,
-    private val genreRepository: GenreRepository
+    private val genreRepository: GenreRepository,
+    private val readerRepository: ReaderRepository
 ) {
     
     // ==================== АВТОРЫ ====================
@@ -28,8 +29,8 @@ class LibraryService(
     // ========================================================================
     // ИНСТРУКЦИЯ: Замени authorRepository.findAll() на authorRepository.findAllWithBooksFetched() и правильно описать этот метод
     @Transactional(readOnly = true)
-    fun getAllAuthorsWithBooksCountNPlus1(): List<Map<String, Any?>> {
-        return authorRepository.findAll().map { author ->
+    open fun getAllAuthorsWithBooksCountNPlus1(): List<Map<String, Any?>> {
+        return authorRepository.findAllWithBooksFetched().map { author ->
             mapOf(
                 "id" to author.id,
                 "name" to author.name,
@@ -47,13 +48,13 @@ class LibraryService(
     // 2. Добавь Hibernate.initialize(***) перед обращением к books
     
     // TODO: Раскомментировать и исправить когда будешь делать задание 3
-    /*
+    @Transactional(readOnly = true)
     fun getAuthorWithBooksUnsafe(authorId: Long): Map<String, Any?> {
         val author = authorRepository.findById(authorId)
             .orElseThrow { EntityNotFoundException("Author not found with id: $authorId") }
-        
-        Hibernate.initialize(***??)
-        
+
+        Hibernate.initialize(author.books)
+
         return mapOf(
             "id" to author.id,
             "name" to author.name,
@@ -62,7 +63,6 @@ class LibraryService(
             }
         )
     }
-    */
     
     // ========================================================================
     // ЗАДАНИЕ 3: Добавить @Transactional для rollback
@@ -70,25 +70,24 @@ class LibraryService(
     // ИНСТРУКЦИЯ: Добавь @Transactional перед методом. нужен ли readonly?
     
     // TODO: Раскомментировать и исправить когда будешь делать задание 3
-    /*
+    @Transactional
     fun createBookWithRollback(title: String, isbn: String, authorId: Long, genreId: Long): Book {
         val book = createBook(title, isbn, authorId, genreId)
-        
+
         if (title.contains("error", ignoreCase = true)) {
             throw RuntimeException("Simulated error - transaction should rollback")
         }
-        
+
         return book
     }
-    */
-    
+
     @Transactional
-    fun createAuthor(name: String): Author {
+    open fun createAuthor(name: String): Author {
         return authorRepository.save(Author(name = name))
     }
     
     @Transactional
-    fun createBook(title: String, isbn: String, authorId: Long, genreId: Long): Book {
+    open fun createBook(title: String, isbn: String, authorId: Long, genreId: Long): Book {
         val author = authorRepository.findById(authorId)
             .orElseThrow { EntityNotFoundException("Author not found with id: $authorId") }
 //        val genre = genreRepository.findById(genreId)
@@ -98,18 +97,17 @@ class LibraryService(
     }
 
     @Transactional(readOnly = true)
-    fun getAllGenres(): List<Genre> {
-//        return genreRepository.findAll()
-        return emptyList()
+    open fun getAllGenres(): List<Genre> {
+        return genreRepository.findAll()
     }
     
     @Transactional(readOnly = true)
-    fun getBooksPage(page: Int = 0, size: Int = 20): Page<Book> {
+    open fun getBooksPage(page: Int = 0, size: Int = 20): Page<Book> {
         return bookRepository.findAll(PageRequest.of(page, size, Sort.by("title")))
     }
     
     @Transactional(readOnly = true)
-    fun searchBooksByTitle(title: String): List<Map<String, Any?>> {
+    open fun searchBooksByTitle(title: String): List<Map<String, Any?>> {
         return bookRepository.findByTitleContaining(title).map { book ->
             mapOf(
                 "id" to book.id,
@@ -122,7 +120,7 @@ class LibraryService(
     }
     
     @Transactional(readOnly = true)
-    fun getAuthorWithBooksFetched(authorId: Long): Map<String, Any?>? {
+    open fun getAuthorWithBooksFetched(authorId: Long): Map<String, Any?>? {
         return authorRepository.findById(authorId)
             .map { author ->
                 Hibernate.initialize(author.books)
@@ -133,5 +131,27 @@ class LibraryService(
                 )
             }
             .orElse(null)
+    }
+
+    @Transactional(readOnly = true)
+    open fun getAllReaders(): List<Map<String, Any?>> {
+        return readerRepository.findAllWithBooksFetched().map { reader ->
+            mapOf(
+                "id" to reader.id,
+                "name" to reader.name,
+                "email" to reader.email,
+                "books" to reader.books.map { book ->
+                    mapOf(
+                        "id" to book.id,
+                        "title" to book.title,
+                        "isbn" to book.isbn,
+                        "author" to mapOf(
+                            "id" to book.author?.id,
+                            "name" to book.author?.name
+                        )
+                    )
+                }
+            )
+        }
     }
 }

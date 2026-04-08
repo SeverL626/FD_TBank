@@ -10,6 +10,21 @@ import jakarta.persistence.*
 // 2. Добавь поля id, name, email
 
 // TODO: Раскомментировать когда будешь делать финальное задание
+@Entity
+@Table(name = "readers")
 data class Reader(
-     val email: String = ""
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+
+    val name: String = "",
+    val email: String = "",
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "reader_books",
+        joinColumns = [JoinColumn(name = "reader_id")],
+        inverseJoinColumns = [JoinColumn(name = "book_id")]
+    )
+    val books: List<Book> = emptyList()
 )

@@ -18,8 +18,4 @@ import java.util.function.Function
 // ============================================================================
 // ИНСТРУКЦИЯ: Убери NoRepositoryBean ниже чтобы этот класс появился как репозиторий, а так же избавься от дефолтной реализации
 
-@NoRepositoryBean
-interface GenreRepository // : JpaRepository<Genre, Long>
-
-@Component
-class GenreRepositoryImpl : GenreRepository
+interface GenreRepository : JpaRepository<Genre, Long>

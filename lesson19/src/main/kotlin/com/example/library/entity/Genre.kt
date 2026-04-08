@@ -9,7 +9,11 @@ import jakarta.persistence.*
 // 1. Добавь аннотации @Entity и @Table перед data class
 // 2. Добавь @Id и @GeneratedValue перед id
 
+@Entity
+@Table(name = "genres")
 data class Genre(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val name: String = ""
 )

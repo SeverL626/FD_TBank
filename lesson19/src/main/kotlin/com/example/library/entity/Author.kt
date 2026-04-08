@@ -8,9 +8,9 @@ data class Author(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    
-    val name: String,
-    
+
+    val name: String = "",
+
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     val books: List<Book> = emptyList()
 )
