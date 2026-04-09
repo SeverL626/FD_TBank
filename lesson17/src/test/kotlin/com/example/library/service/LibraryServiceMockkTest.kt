@@ -157,12 +157,12 @@ class LibraryServiceMockkTest {
         val author = Author(id = 0, name = "Abraham Lincoln")
         val genre = Genre(id = 2, name = "Detective")
 
-        every{authorRepository.findById(eq(0))} returns Optional.of(author)
-        every{genreRepository.findById(eq(2))} returns Optional.of(genre)
+        every { authorRepository.findById(eq(0)) } returns Optional.of(author)
+        every { genreRepository.findById(eq(2)) } returns Optional.of(genre)
 
         val bookSlot = slot<Book>()
 
-        every{bookRepository.save(capture(bookSlot))} answers {bookSlot.captured.copy(id = 100)}
+        every { bookRepository.save(capture(bookSlot)) } answers { bookSlot.captured.copy(id = 100) }
 
         val result = service.createBook("TestBook2", "qwerty", 0, 2)
 
@@ -171,7 +171,7 @@ class LibraryServiceMockkTest {
         assertEquals("qwerty", bookSlot.captured.isbn)
         assertEquals(author, bookSlot.captured.author)
 
-        verify(exactly = 1){bookRepository.save(any())}
+        verify(exactly = 1) { bookRepository.save(any()) }
 
     }
 
@@ -199,7 +199,7 @@ class LibraryServiceMockkTest {
         val pageRequest = PageRequest.of(0, 33, Sort.by("title"))
         val pageData = PageImpl(listOf(book), pageRequest, 1)
 
-        every{bookRepository.findAll(eq(pageRequest))} returns pageData
+        every { bookRepository.findAll(eq(pageRequest)) } returns pageData
 
         val result = service.getBooksPage(0, 33)
 
@@ -208,6 +208,6 @@ class LibraryServiceMockkTest {
         assertEquals("qwerty", result.content[0].isbn)
         assertEquals(author, result.content[0].author)
 
-        verify(exactly = 1){bookRepository.findAll(eq(pageRequest))}
+        verify(exactly = 1) { bookRepository.findAll(eq(pageRequest)) }
     }
 }
