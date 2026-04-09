@@ -1,37 +1,18 @@
-allprojects {
-    group = "backend.tclass"
-    version = "1.0.0"
-
-    repositories {
-        mavenCentral()
-    }
+plugins {
+    buildlogic.`kotlin-common-conventions-no-detekt`
 }
 
-subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
+tasks.withType<JavaExec>().configureEach {
+    jvmArgs(
+        "-Dfile.encoding=UTF-8",
+        "-Dsun.stdout.encoding=UTF-8",
+        "-Dsun.stderr.encoding=UTF-8"
+    )
+}
 
-    dependencies {
-        val implementation by configurations
-        val testImplementation by configurations
-
-        // Kotlin stdlib
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-        // Testing
-        testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "21"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-        }
-    }
-
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+}
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 }
