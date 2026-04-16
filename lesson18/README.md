@@ -1,0 +1,1 @@
+Задание - https://excalidraw.com/#room=61478d3e4ce3f75934e8,Elu-jourQM7u1Hz-neXnBw
