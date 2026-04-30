@@ -1,0 +1,1 @@
+Семинар в другом репозитории -> https://github.com/SeverL626/FD_TBank_actions_sem
