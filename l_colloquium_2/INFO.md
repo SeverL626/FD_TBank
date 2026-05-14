@@ -1,7 +1,3 @@
-Собрал в один конспект по темам из файла: Spring, REST/OpenAPI, SQL/JPA/Hibernate, тесты, Docker, CI/CD, JWT, логи, метрики и архитектуры.
-
----
-
 # Конспект к коллоквиуму по Backend / Kotlin / Spring
 
 ## 1. Общая схема backend-приложения
